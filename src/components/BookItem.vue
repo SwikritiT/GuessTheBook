@@ -26,7 +26,6 @@
   margin-left: 1rem;
 }
 
-
 h3 {
   font-size: 1.2rem;
   font-weight: 500;

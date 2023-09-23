@@ -1,8 +1,8 @@
 <template>
   <header>
-     <IconHeadQuestion class="logo"/>
+    <IconHeadQuestion class="logo" />
     <div class="wrapper">
-      <GuessTheBookVue/>
+      <GuessTheBookVue />
     </div>
   </header>
 
