@@ -18,10 +18,9 @@
       </div>
     </template>
     <template v-if="!showTotalScore" #options>
-      <div  class="options" v-for="(book, index) in selectedBooks" :key="index">
+      <div  class="options" :class="{ 'input-error': showErrorMessage }" v-for="(book, index) in selectedBooks" :key="index">
         <input type="text"
                class="book-titles"
-               :class="{ 'input-error': showErrorMessage }"
                :value="book"
                name="bookTitles"
                @click="checkSelectedOption(book)"
