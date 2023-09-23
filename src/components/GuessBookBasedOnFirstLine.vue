@@ -44,7 +44,7 @@ const description = ref<string | null>(null)
 const optionBooks = ref<string[] | null>(null)
 const actualBook = ref<string | null>(null)
 const counter = ref(0)
-const titlesToGuess = ref<string[] | null>(null)
+const titlesToGuess = ref<[string, string][] | null>(null)
 const showErrorMessage = ref(false)
 const showTotalScore = ref(false)
 const iteration = ref(1)
@@ -75,8 +75,7 @@ function displayDescription() {
     showTotalScore.value = true
     return
   }
-  const [title, firstLine] = titlesToGuess.value[iteration.value]
-  console.log(firstLine)
+  const [title, firstLine] = (titlesToGuess.value?.[iteration.value] || []) as [string, string]
   description.value = firstLine
   optionBooks.value = getRandomElementsWithExclusion(title)
   actualBook.value = title
@@ -110,7 +109,7 @@ function shuffleArray<T>(array: T[]): T[] {
   return array
 }
 
-function checkSelectedOption(book) {
+function checkSelectedOption(book: string) {
   showErrorMessage.value = false
   showNext.value = book === actualBook.value
   if (showNext.value) {
