@@ -76,6 +76,7 @@ function displayDescription() {
     return
   }
   const [title, firstLine] = titlesToGuess.value[iteration.value]
+  console.log(firstLine)
   description.value = firstLine
   optionBooks.value = getRandomElementsWithExclusion(title)
   actualBook.value = title
@@ -103,7 +104,8 @@ function getRandomElementsWithExclusion(exclusion: string): string[] {
 // Fisher-Yates Algorithm for shuffling
 function shuffleArray<T>(array: T[]): T[] {
   for (let i = array.length - 1; i > 0; i--) {
-    const j = (Math.floor(Math.random() * (i + 1))[(array[i], array[j])] = [array[j], array[i]]) // Swap elements
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]]; // Swap elements
   }
   return array
 }
