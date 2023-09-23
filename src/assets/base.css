@@ -1,12 +1,13 @@
 /* color palette from <https://github.com/vuejs/theme> */
 :root {
-  --vt-c-white: #ffffff;
+  --vt-c-white: #073B3A;
   --vt-c-white-soft: #f8f8f8;
   --vt-c-white-mute: #f2f2f2;
 
-  --vt-c-black: #181818;
+  --vt-c-black: #073B3A;
   --vt-c-black-soft: #222222;
   --vt-c-black-mute: #282828;
+  --vt-c-error: #FAA0A0;
 
   --vt-c-indigo: #2c3e50;
 
@@ -30,8 +31,8 @@
   --color-border: var(--vt-c-divider-light-2);
   --color-border-hover: var(--vt-c-divider-light-1);
 
-  --color-heading: var(--vt-c-text-light-1);
-  --color-text: var(--vt-c-text-light-1);
+  --color-heading: var(--vt-c-text-dark-2);
+  --color-text: var(--vt-c-text-dark-2);
 
   --section-gap: 160px;
 }
@@ -45,7 +46,7 @@
     --color-border: var(--vt-c-divider-dark-2);
     --color-border-hover: var(--vt-c-divider-dark-1);
 
-    --color-heading: var(--vt-c-text-dark-1);
+    --color-heading: var(--vt-c-text-dark-2);
     --color-text: var(--vt-c-text-dark-2);
   }
 }
@@ -78,6 +79,7 @@ body {
     'Fira Sans',
     'Droid Sans',
     'Helvetica Neue',
+    'Lato',
     sans-serif;
   font-size: 15px;
   text-rendering: optimizeLegibility;

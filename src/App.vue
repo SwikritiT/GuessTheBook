@@ -1,21 +1,21 @@
-<script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-</script>
-
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
+     <IconHeadQuestion class="logo"/>
     <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+      <GuessTheBookVue/>
     </div>
   </header>
 
   <main>
-    <TheWelcome />
+    <GuessBookBasedOnFirstLine />
   </main>
 </template>
+
+<script setup lang="ts">
+import GuessTheBookVue from './components/GuessTheBook.vue'
+import GuessBookBasedOnFirstLine from './components/GuessBookBasedOnFirstLine.vue'
+import IconHeadQuestion from './components/icons/IconHeadQuestion.vue'
+</script>
 
 <style scoped>
 header {
@@ -24,7 +24,7 @@ header {
 
 .logo {
   display: block;
-  margin: 0 auto 2rem;
+  margin: 0 auto 0.8rem;
 }
 
 @media (min-width: 1024px) {
@@ -35,7 +35,7 @@ header {
   }
 
   .logo {
-    margin: 0 2rem 0 0;
+    margin: 0 0.8rem 0 0;
   }
 
   header .wrapper {
