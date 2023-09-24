@@ -1,6 +1,6 @@
 <template>
   <header>
-    <IconHeadQuestion class="logo" />
+    <IconBook class="logo" />
     <div class="wrapper">
       <GuessTheBookVue />
     </div>
@@ -14,7 +14,7 @@
 <script setup lang="ts">
 import GuessTheBookVue from './components/GuessTheBook.vue'
 import GuessBookBasedOnFirstLine from './components/GuessBookBasedOnFirstLine.vue'
-import IconHeadQuestion from './components/icons/IconHeadQuestion.vue'
+import IconBook from '@/components/icons/IconBook.vue'
 </script>
 
 <style scoped>

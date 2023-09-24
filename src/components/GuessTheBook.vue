@@ -6,7 +6,7 @@
 <style scoped>
 h2 {
   font-weight: 500;
-  font-size: 2rem;
+  font-size: 1.6rem;
   position: relative;
   top: -10px;
   text-align: center;
@@ -14,6 +14,7 @@ h2 {
 
 @media (min-width: 1024px) {
   h2 {
+    font-size: 2rem;
     text-align: center;
   }
 }

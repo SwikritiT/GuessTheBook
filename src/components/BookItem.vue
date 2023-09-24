@@ -27,16 +27,17 @@
 }
 
 h3 {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 500;
   margin-bottom: 0.4rem;
   color: var(--color-heading);
   font-style: italic;
+  letter-spacing: 0.03rem;
   line-height: 1.5;
 }
 
 h2 {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: 700;
   margin-bottom: 0.4rem;
   color: var(--color-heading);
@@ -46,6 +47,13 @@ h2 {
 }
 
 @media (min-width: 1024px) {
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1.2rem;
+  }
   .item {
     margin-top: 0;
     padding: 0.4rem 0 1rem calc(var(--section-gap) / 2);

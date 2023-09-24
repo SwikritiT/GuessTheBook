@@ -1,11 +1,11 @@
 <template>
   <BookItem>
     <template #score>
-      <span v-if="!showTotalScore" class="score"> Score: {{ counter }} </span>
+      <span v-if="!showTotalScore" class="score"> Score: {{ score }} </span>
       <span v-if="!showTotalScore" class="remaining"> {{ iteration }}/20 </span>
-      <span v-if="showTotalScore" class="total-score"> Your total score is {{ counter }} ! </span>
+      <span v-if="showTotalScore" class="total-score"> Total Score: {{ score }}</span>
       <button v-if="showTotalScore" id="restart" class="hidden" @click="restartQuiz">
-        Restart
+        Play Again
       </button>
     </template>
     <template v-if="!showTotalScore" #heading>
@@ -43,11 +43,11 @@ const showNext = ref(false)
 const description = ref<string | null>(null)
 const optionBooks = ref<string[] | null>(null)
 const actualBook = ref<string | null>(null)
-const counter = ref(0)
+const score = ref(0)
 const titlesToGuess = ref<[string, string][] | null>(null)
 const showErrorMessage = ref(false)
 const showTotalScore = ref(false)
-const iteration = ref(1)
+const iteration = ref(1) // number of question
 const selectedIncorrectOption = ref<string | null>(null)
 const selectedCorrectOption = ref<string | null>(null)
 
@@ -62,7 +62,7 @@ function reset() {
   description.value = null
   optionBooks.value = null
   actualBook.value = null
-  counter.value = 0
+  score.value = 0
   titlesToGuess.value = null
   showErrorMessage.value = false
   showTotalScore.value = false
@@ -83,7 +83,9 @@ function displayDescription() {
 
 function getRandomElementsWithExclusion(exclusion: string): string[] {
   // Filter out elements equal to the exclusion string i.e book title
-  const filteredArray = bookOption.filter((item) => item !== exclusion)
+  const filteredArray = bookOption.filter(
+    (item) => item.trim().toLowerCase() !== exclusion.trim().toLowerCase()
+  )
 
   if (filteredArray.length < 3) {
     throw new Error('Array size is less than 3 after exclusion.')
@@ -102,20 +104,34 @@ function getRandomElementsWithExclusion(exclusion: string): string[] {
 
 // Fisher-Yates Algorithm for shuffling
 function shuffleArray<T>(array: T[]): T[] {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+  const shuffledArray = [...array] // Create a copy of the original array
+
+  for (let i = shuffledArray.length - 1; i > 0; i--) {
+    // Generate a random index between 0 and i (inclusive)
+    const randomIndex = Math.floor(Math.random() * (i + 1))
+
+    // Swap elements using the randomIndex
+    const temp = shuffledArray[i]
+    shuffledArray[i] = shuffledArray[randomIndex]
+    shuffledArray[randomIndex] = temp
   }
-  return array
+
+  return shuffledArray
 }
 
 function checkSelectedOption(book: string) {
   showErrorMessage.value = false
   showNext.value = book === actualBook.value
   if (showNext.value) {
+    // reset some of the data
     selectedIncorrectOption.value = null
+    showErrorMessage.value = false
+    selectedCorrectOption.value = null
+    showNext.value = false
+
+    // increase score counter and iteration
     iteration.value = iteration.value + 1
-    counter.value = counter.value + 1
+    score.value = score.value + 1
     displayDescription()
   } else {
     selectedIncorrectOption.value = book
@@ -148,7 +164,10 @@ onMounted(() => {
 <style scoped>
 .input-error {
   animation-name: horizontal-shaking;
-  animation-duration: 0.2s;
+  animation-duration: 0.3s;
+  background-color: transparent !important;
+  color: #9fe2bf !important;
+  border-color: var(--vt-c-error) !important;
 }
 
 @keyframes horizontal-shaking {
@@ -193,8 +212,7 @@ onMounted(() => {
 }
 
 /* Define a class for the button */
-.book-titles,
-.book-titles:focus {
+.book-titles {
   width: 100%;
   background-color: transparent;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
@@ -214,6 +232,12 @@ onMounted(() => {
     background-color 0.2s,
     box-shadow 0.2s;
   cursor: pointer;
+  overflow: hidden;
+  word-wrap: break-word;
+}
+
+.book-titles:focus-visible {
+  outline: none;
 }
 
 .next {
@@ -247,12 +271,10 @@ input {
 @keyframes fade-in {
   from {
     opacity: 0;
-    font-size: 12px;
     text-align: center;
   }
   to {
     opacity: 1;
-    font-size: 24px;
     text-align: center;
   }
 }
@@ -283,17 +305,40 @@ input {
     opacity: 1;
   }
 }
+@media (min-width: 1024px) {
+  .book-titles:focus {
+    width: 100%;
+    background-color: transparent;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 5px 20px;
+    margin-top: 15px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: #9fe2bf;
+    font-weight: bold;
+    text-decoration: none;
+    line-height: 1.5;
+    letter-spacing: 1px;
+    display: flex;
+    flex-wrap: wrap;
+    transition:
+      background-color 0.2s,
+      box-shadow 0.2s;
+    cursor: pointer;
+  }
 
-.book-titles:hover {
-  background-color: #a9b2ac;
-  color: var(--vt-c-white);
-  cursor: pointer;
-}
+  .book-titles:hover {
+    background-color: #a9b2ac;
+    color: var(--vt-c-white);
+    cursor: pointer;
+  }
 
-#restart:hover {
-  background-color: #a9b2ac;
-  color: var(--vt-c-white);
-  box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.3);
-  cursor: pointer;
+  #restart:hover {
+    background-color: #a9b2ac;
+    color: var(--vt-c-white);
+    box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+  }
 }
 </style>
