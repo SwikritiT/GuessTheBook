@@ -1,0 +1,47 @@
+version: '3.9'
+
+services:
+  traefik:
+    image: traefik:latest
+    container_name: "traefik"
+    restart: unless-stopped
+    command:
+      # Traefik will listen on port 8080 by default for API request.
+      - "--api.insecure=true"
+      # Enabling Docker provider
+      - "--providers.docker=true"
+      - "--api.dashboard=true"
+      # Do not expose containers unless explicitly told so
+      - "--providers.docker.exposedbydefault=false"
+      # Traefik will listen to incoming request on the port 80 (HTTP)
+      - "--entrypoints.web.address=:80"
+      # Traefik will listen to incoming request on the port 443 (https)
+      - "--entrypoints.websecure.address=:443"
+      - "--entryPoints.websecure.http.tls=true"
+      - "--entrypoints.websecure.http.tls.options=default"
+    ports:
+      - "80:80"
+      - "8080:8080"
+      - "443:443"
+    volumes:
+      # So that Traefik can listen to the Docker events
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.local`)"
+      - "traefik.http.routers.traefik.service=api@internal"
+      - "traefik.http.routers.traefik.entrypoints=websecure"
+
+  guessthebook:
+    image: guessthebook/dockerize-app
+    container_name: "guessthebook"
+    labels:
+      # Explicitly tell Traefik to expose this container
+      - "traefik.enable=true"
+      # The domain the service will respond to
+      - "traefik.http.routers.guessthebook.rule=Host(`guessthebook.example.com`)"
+      #      # Allow request only from the predefined entry point named "web"
+      #      - "traefik.http.routers.guessthebook.entrypoints=web"
+      # Uses the Host rule to define which certificate to issue
+      - "traefik.http.routers.guessthebook.entrypoints=websecure"
+      - "traefik.http.routers.guessthebook.tls=true"
